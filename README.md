@@ -17,3 +17,7 @@ skill picks the right participants (process boundaries, not function calls),
 traces sync/async calls, and renders Mermaid or PlantUML.
 
 See [SKILL.md](SKILL.md) for the full process and quick reference.
+
+## License
+
+[MIT](LICENSE)
