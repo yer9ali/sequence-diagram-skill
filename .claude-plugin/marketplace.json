@@ -1,0 +1,18 @@
+{
+  "name": "sequence-diagram-skill",
+  "description": "Marketplace for the sequence-diagram Claude Code skill",
+  "owner": {
+    "name": "Yergali Aldekenov"
+  },
+  "plugins": [
+    {
+      "name": "sequence-diagram",
+      "description": "Skill for building sequence diagrams of microservice interactions and API call flows (Mermaid/PlantUML), from source code, a described scenario, or both",
+      "version": "1.0.0",
+      "source": "./",
+      "author": {
+        "name": "Yergali Aldekenov"
+      }
+    }
+  ]
+}

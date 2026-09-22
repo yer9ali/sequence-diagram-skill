@@ -6,9 +6,17 @@ a described scenario, or both. Outputs Mermaid or PlantUML.
 
 ## Install
 
-Copy `SKILL.md` into your skills directory (`~/.claude/skills/sequence-diagram/`
-on Claude Code; `~/.agents/skills/sequence-diagram/` also works on Codex,
-Copilot CLI, and Gemini CLI).
+In Claude Code:
+
+```
+/plugin marketplace add yer9ali/sequence-diagram-skill
+/plugin install sequence-diagram@sequence-diagram-skill
+```
+
+Or manually: copy [`skills/sequence-diagram/SKILL.md`](skills/sequence-diagram/SKILL.md)
+into your skills directory (`~/.claude/skills/sequence-diagram/` on Claude Code;
+`~/.agents/skills/sequence-diagram/` also works on Codex, Copilot CLI, and
+Gemini CLI).
 
 ## Usage
 
@@ -16,7 +24,7 @@ Just ask: "build a sequence diagram for OrderService's checkout flow" — the
 skill picks the right participants (process boundaries, not function calls),
 traces sync/async calls, and renders Mermaid or PlantUML.
 
-See [SKILL.md](SKILL.md) for the full process and quick reference.
+See [SKILL.md](skills/sequence-diagram/SKILL.md) for the full process and quick reference.
 
 ## License
 

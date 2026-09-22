@@ -1,0 +1,19 @@
+{
+  "name": "sequence-diagram",
+  "description": "Skill for building sequence diagrams of microservice interactions and API call flows (Mermaid/PlantUML), from source code, a described scenario, or both",
+  "version": "1.0.0",
+  "author": {
+    "name": "Yergali Aldekenov"
+  },
+  "homepage": "https://github.com/yer9ali/sequence-diagram-skill",
+  "repository": "https://github.com/yer9ali/sequence-diagram-skill",
+  "license": "MIT",
+  "keywords": [
+    "skills",
+    "sequence-diagram",
+    "mermaid",
+    "plantuml",
+    "microservices",
+    "architecture"
+  ]
+}
