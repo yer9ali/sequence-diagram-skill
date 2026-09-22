@@ -28,11 +28,17 @@ sequence diagram).
    choice, format, save location, anything else) in the language the user
    has been writing in, not English by default.
 
-1. **Establish the flow to diagram.** A service usually has multiple
-   entrypoints (endpoints, consumers, cron jobs). Pick ONE concrete flow
-   (e.g. "POST /orders happy path"). If the request is ambiguous ("diagram
-   the service"), ask which flow, or ask if they want one diagram per
-   entrypoint rather than one overloaded diagram.
+1. **Establish scope from what the user actually asked.**
+   - If they named a specific endpoint, consumer, job, or scenario, diagram
+     just that one flow.
+   - Otherwise ("build a sequence diagram for sdf-service", "diagram this
+     service") the default is the **whole service**: find every entrypoint
+     (HTTP endpoints, consumers, cron/scheduled jobs) and produce **one
+     diagram per entrypoint**. Don't ask which single flow they want —
+     narrowing to one flow only happens when the user's own request already
+     named one.
+   - Only ask a clarifying question if entrypoints can't be reliably found
+     (no code available and no description given).
 
 2. **Gather interactions.**
    - **From code:** find the entrypoint (controller/handler/consumer) for
@@ -107,6 +113,7 @@ OrderService --> Client: 201 Created
 | Mistake | Fix |
 |---|---|
 | Diagramming every function call inside the service | Collapse internals into one participant — only process/network boundaries are actors |
-| One diagram trying to cover every endpoint | One flow per diagram; ask which flow if unclear |
+| Merging every endpoint into one giant diagram | One flow per diagram — a whole-service request means one diagram *per entrypoint*, not one mega-diagram |
+| Asking "which flow?" when the user didn't name one | Whole-service is the default scope; only narrow to one flow if the user's request already named it |
 | Inventing calls not present in code or description | Trace actual outbound calls; don't guess at integrations |
 | Showing every possible error branch | Only include branches relevant to the flow being explained |
