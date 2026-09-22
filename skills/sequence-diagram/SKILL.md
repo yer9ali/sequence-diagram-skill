@@ -24,6 +24,10 @@ sequence diagram).
 
 ## Process
 
+0. **Match the user's language.** Ask every clarifying question (flow
+   choice, format, save location, anything else) in the language the user
+   has been writing in, not English by default.
+
 1. **Establish the flow to diagram.** A service usually has multiple
    entrypoints (endpoints, consumers, cron jobs). Pick ONE concrete flow
    (e.g. "POST /orders happy path"). If the request is ambiguous ("diagram
