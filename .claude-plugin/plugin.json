@@ -1,7 +1,7 @@
 {
   "name": "sequence-diagram",
   "description": "Skill for building sequence diagrams of microservice interactions and API call flows (Mermaid/PlantUML), from source code, a described scenario, or both",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "author": {
     "name": "Yergali Aldekenov"
   },

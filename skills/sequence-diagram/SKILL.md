@@ -24,13 +24,17 @@ sequence diagram).
 
 ## Process
 
-0. **Match the user's language.** Ask every clarifying question, AND write
-   the diagram itself, in the language the user has been writing in — not
-   English by default. This includes participant labels and message text
-   in the Mermaid/PlantUML source (e.g. `Клиент`, `оформить заказ`), and any
-   surrounding chat explanation. Keep only things that are literally code —
-   endpoint paths, method/class names, field names — verbatim; translate
-   everything else.
+0. **Match the user's language — everywhere, not just the diagram.** Ask
+   every clarifying question, write the diagram itself, AND write every bit
+   of surrounding text in the language the user has been writing in — not
+   English by default. This covers: participant labels and message text in
+   the Mermaid/PlantUML source (e.g. `Клиент`, `оформить заказ`); chat
+   explanation; and, for an Artifact, *all* of its page text — title,
+   intro/description, section headers, navigation labels, table headers,
+   button text. There is no "just UI chrome, that can stay English"
+   exception — a mixed-language page is the failure mode to avoid. Keep
+   only things that are literally code verbatim — endpoint paths,
+   method/class/service names, field names; translate everything else.
 
 1. **Establish scope from what the user actually asked.**
    - If they already named a specific endpoint, consumer, job, or scenario,
@@ -147,3 +151,4 @@ whole-service set):
 | Skipping the question and defaulting silently | Always ask when the user didn't name a flow — only skip when they already did |
 | Inventing calls not present in code or description | Trace actual outbound calls; don't guess at integrations |
 | Showing every possible error branch | Only include branches relevant to the flow being explained |
+| Translating the diagram but leaving Artifact titles/intro/nav in English | Language-match the *entire* page, not just the diagram content |
