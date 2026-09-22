@@ -24,9 +24,13 @@ sequence diagram).
 
 ## Process
 
-0. **Match the user's language.** Ask every clarifying question (flow
-   choice, format, save location, anything else) in the language the user
-   has been writing in, not English by default.
+0. **Match the user's language.** Ask every clarifying question, AND write
+   the diagram itself, in the language the user has been writing in — not
+   English by default. This includes participant labels and message text
+   in the Mermaid/PlantUML source (e.g. `Клиент`, `оформить заказ`), and any
+   surrounding chat explanation. Keep only things that are literally code —
+   endpoint paths, method/class names, field names — verbatim; translate
+   everything else.
 
 1. **Establish scope from what the user actually asked.**
    - If they already named a specific endpoint, consumer, job, or scenario,
