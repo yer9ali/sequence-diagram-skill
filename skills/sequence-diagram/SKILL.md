@@ -29,16 +29,16 @@ sequence diagram).
    has been writing in, not English by default.
 
 1. **Establish scope from what the user actually asked.**
-   - If they named a specific endpoint, consumer, job, or scenario, diagram
-     just that one flow.
+   - If they already named a specific endpoint, consumer, job, or scenario,
+     diagram just that one flow — no need to ask.
    - Otherwise ("build a sequence diagram for sdf-service", "diagram this
-     service") the default is the **whole service**: find every entrypoint
-     (HTTP endpoints, consumers, cron/scheduled jobs) and produce **one
-     diagram per entrypoint**. Don't ask which single flow they want —
-     narrowing to one flow only happens when the user's own request already
-     named one.
-   - Only ask a clarifying question if entrypoints can't be reliably found
-     (no code available and no description given).
+     service"), ask exactly one clarifying question with two options — don't
+     pre-guess a flow from recent commits or add extra choices:
+     1. **Whole service** — find every entrypoint (HTTP endpoints,
+        consumers, cron/scheduled jobs) and produce **one diagram per
+        entrypoint**.
+     2. **A specific endpoint** — the user names it, then diagram just that
+        flow.
 
 2. **Gather interactions.**
    - **From code:** find the entrypoint (controller/handler/consumer) for
@@ -114,6 +114,7 @@ OrderService --> Client: 201 Created
 |---|---|
 | Diagramming every function call inside the service | Collapse internals into one participant — only process/network boundaries are actors |
 | Merging every endpoint into one giant diagram | One flow per diagram — a whole-service request means one diagram *per entrypoint*, not one mega-diagram |
-| Asking "which flow?" when the user didn't name one | Whole-service is the default scope; only narrow to one flow if the user's request already named it |
+| Auto-picking a flow from a recent commit instead of asking | For a generic request, ask the whole-service-vs-specific-endpoint question — don't guess a flow from git history |
+| Skipping the question and defaulting silently | Always ask when the user didn't name a flow — only skip when they already did |
 | Inventing calls not present in code or description | Trace actual outbound calls; don't guess at integrations |
 | Showing every possible error branch | Only include branches relevant to the flow being explained |
