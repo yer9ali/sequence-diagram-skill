@@ -39,12 +39,19 @@ sequence diagram).
      service"), ask exactly one clarifying question with two options — don't
      pre-guess a flow from recent commits or add extra choices:
      1. **Whole service** — find every entrypoint (HTTP endpoints,
-        consumers, cron/scheduled jobs) and produce **one diagram per
-        entrypoint**.
+        consumers, cron/scheduled jobs) and produce an **overview diagram**
+        (see step 2) plus **one detailed diagram per entrypoint**.
      2. **A specific endpoint** — the user names it, then diagram just that
-        flow.
+        flow (skip the overview, go straight to steps 3-6).
 
-2. **Gather interactions.**
+2. **Build the overview diagram (whole-service scope only).** A simplified
+   service map, not a full sequence: one row per entrypoint, with an arrow
+   only to each thing it touches (other services, DB, queue) — no
+   request/response pairs, no message text beyond the target, no branches.
+   This is the "whole picture" a reader sees first; the detailed per-entrypoint
+   diagrams (steps 3-6, run once per entrypoint) are what they drill into.
+
+3. **Gather interactions.**
    - **From code:** find the entrypoint (controller/handler/consumer) for
      the chosen flow, then trace outbound calls it makes: HTTP/gRPC
      clients, message publish/consume, DB/cache access. Search for
@@ -56,17 +63,17 @@ sequence diagram).
    - If both are available, prefer code as ground truth and use the
      description to pick which flow/branch to follow.
 
-3. **Pick participants — process boundaries only.** Include: the service
+4. **Pick participants — process boundaries only.** Include: the service
    itself, each external service it calls, the DB/cache, the message
    broker, and the original caller if known. Exclude internal
    classes/functions — collapse them into the service that owns them.
 
-4. **Order the interactions**, marking sync vs async, and note error/branch
+5. **Order the interactions**, marking sync vs async, and note error/branch
    paths only if they matter to the flow being documented (e.g. a retry,
    a fallback, a rejected validation) — don't diagram every possible
    exception.
 
-5. **Pick a format** — default to Mermaid. Use PlantUML if the user asks,
+6. **Pick a format** — default to Mermaid. Use PlantUML if the user asks,
    or the project already has `.puml` files.
 
 ## Quick Reference
@@ -104,20 +111,38 @@ OrderService --> Client: 201 Created
 
 ## Output
 
+**Single flow** (a named endpoint, or after drilling into one from a
+whole-service set):
 - Always show the diagram source as a fenced code block in the reply.
 - For Mermaid, also publish it as an Artifact so it renders live —
   load the `artifact-design` skill first, per its own requirement.
 - If working inside a repo that contains the diagrammed service's code,
-  offer to save the file (e.g. `docs/diagrams/<service>-<flow>-sequence.mmd`
+  offer to save the file (e.g. `docs/diagrams/<service>/<endpoint>.mmd`
   or `.puml`) — confirm the path before writing, don't save on a one-off
   chat request with no repo context.
+
+**Whole service** (overview + one diagram per entrypoint):
+- **Artifact:** publish one interactive page — the overview renders first;
+  clicking an entrypoint in it swaps the view to that entrypoint's detailed
+  diagram (client-side view switch, no page reload, no new Artifact per
+  endpoint). Load `artifact-design` and `artifact-capabilities` first.
+- **Saved files:** `docs/diagrams/<service>/overview.mmd` (or `.puml`) plus
+  one file per entrypoint (`docs/diagrams/<service>/<endpoint>.mmd`), and a
+  `docs/diagrams/<service>/README.md` that links the overview to each
+  detailed diagram with plain markdown links — this is what makes drilling
+  in work on GitHub/GitLab, which don't support `click` on Mermaid
+  sequence diagrams.
+- Still show the overview diagram source as a fenced code block in the
+  reply; don't dump every per-entrypoint source inline too — link to the
+  Artifact and/or saved files instead.
 
 ## Common Mistakes
 
 | Mistake | Fix |
 |---|---|
 | Diagramming every function call inside the service | Collapse internals into one participant — only process/network boundaries are actors |
-| Merging every endpoint into one giant diagram | One flow per diagram — a whole-service request means one diagram *per entrypoint*, not one mega-diagram |
+| Merging every endpoint into one giant diagram | One flow per diagram — a whole-service request means an overview *plus* one diagram per entrypoint, not one mega-diagram |
+| Whole-service output with no overview, or overview with full message detail | Overview = simplified service map only (who calls what); message-level detail belongs in the per-entrypoint diagrams |
 | Auto-picking a flow from a recent commit instead of asking | For a generic request, ask the whole-service-vs-specific-endpoint question — don't guess a flow from git history |
 | Skipping the question and defaulting silently | Always ask when the user didn't name a flow — only skip when they already did |
 | Inventing calls not present in code or description | Trace actual outbound calls; don't guess at integrations |
