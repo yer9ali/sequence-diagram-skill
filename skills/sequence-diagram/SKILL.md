@@ -115,6 +115,13 @@ OrderService --> Client: 201 Created
 
 ## Output
 
+**Readability over fitting a box.** Never let Mermaid shrink a diagram to
+fit a fixed-width card — with 6+ participants that makes labels and arrow
+text unreadable. Render at natural size (`mermaid.render` output, no CSS
+`max-width`/`transform: scale` squeeze) and let the container scroll
+horizontally; for the overview diagram in particular, give it the full
+page width rather than sharing a narrow column with sidebar/nav.
+
 **Single flow** (a named endpoint, or after drilling into one from a
 whole-service set):
 - Always show the diagram source as a fenced code block in the reply.
@@ -152,3 +159,4 @@ whole-service set):
 | Inventing calls not present in code or description | Trace actual outbound calls; don't guess at integrations |
 | Showing every possible error branch | Only include branches relevant to the flow being explained |
 | Translating the diagram but leaving Artifact titles/intro/nav in English | Language-match the *entire* page, not just the diagram content |
+| Diagram squeezed into a narrow card, text unreadable | Render at natural size with horizontal scroll — never scale down to fit |
