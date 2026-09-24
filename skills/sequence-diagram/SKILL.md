@@ -67,6 +67,15 @@ sequence diagram).
    This is the "whole picture" a reader sees first; the detailed per-entrypoint
    diagrams (steps 3-6, run once per entrypoint) are what they drill into.
 
+   If there are many entrypoints (30+ routes/jobs on one participant), one
+   row per route makes the overview itself unreadable — group by
+   module/router prefix instead (one arrow per group, e.g. `/internal/*`),
+   and name the group, not every route inside it.
+
+   If you're only revising the overview's presentation on something already
+   built (labels, language, sizing) — not its content — reuse the
+   entrypoint list you already gathered; don't re-run code discovery.
+
 3. **Gather interactions.**
    - **From code:** find the entrypoint (controller/handler/consumer) for
      the chosen flow, then trace outbound calls it makes: HTTP/gRPC
