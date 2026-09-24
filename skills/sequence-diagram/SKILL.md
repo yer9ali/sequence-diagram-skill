@@ -136,6 +136,17 @@ OrderService --> Client: 201 Created
 
 ## Output
 
+**Track freshness (saved files only).** Every saved diagram file starts
+with a one-line comment naming the commit it was generated from:
+`%% generated from <short-sha>, <date>` (Mermaid) / `' generated from
+<short-sha>, <date>` (PlantUML). On a later request for the same
+service/flow, read that marker from the existing file first and run
+`git log --oneline <sha>..HEAD -- <relevant path>` — if nothing changed,
+say so and skip rebuilding. If something did, regenerate only the
+entrypoints whose source actually changed (reuse the rest as-is), and
+only refresh the overview if entrypoints were added/removed or their
+targets changed.
+
 **Readability over fitting a box.** Never let Mermaid shrink a diagram to
 fit a fixed-width card — with 6+ participants that makes labels and arrow
 text unreadable. Render at natural size (`mermaid.render` output, no CSS
@@ -183,3 +194,4 @@ whole-service set):
 | Diagram squeezed into a narrow card, text unreadable | Render at natural size with horizontal scroll — never scale down to fit |
 | Overview arrow labeled with a bare action ("чтение/запись") when the participant has multiple routes/jobs | Name the specific endpoint/route/job on the arrow so one entrypoint's path can be traced |
 | Overview arrow stacking the trigger mechanism and the use-case class ("worker run_once() - SendBatchUseCase") | One clean name per arrow (`SendBatch`); internal method/class names belong in the per-entrypoint diagram, not the overview |
+| Rebuilding the whole diagram set from scratch on every request, even when nothing changed | Check the saved file's commit marker with `git log` first; only regenerate entrypoints whose source actually changed |
