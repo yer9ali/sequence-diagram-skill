@@ -51,7 +51,12 @@ sequence diagram).
 2. **Build the overview diagram (whole-service scope only).** A simplified
    service map, not a full sequence: one row per entrypoint, with an arrow
    only to each thing it touches (other services, DB, queue) — no
-   request/response pairs, no message text beyond the target, no branches.
+   request/response pairs, no branches, and no incidental detail. But
+   **always name the specific endpoint/route/job an arrow belongs to**
+   (e.g. `POST /batches/send: чтение/запись`, not bare `чтение/запись`) —
+   when one process participant represents several entrypoints (a service
+   with 11 routes, a worker with 6 tick loops), a bare action label makes
+   it impossible to trace which entrypoint's logic an arrow belongs to.
    This is the "whole picture" a reader sees first; the detailed per-entrypoint
    diagrams (steps 3-6, run once per entrypoint) are what they drill into.
 
@@ -160,3 +165,4 @@ whole-service set):
 | Showing every possible error branch | Only include branches relevant to the flow being explained |
 | Translating the diagram but leaving Artifact titles/intro/nav in English | Language-match the *entire* page, not just the diagram content |
 | Diagram squeezed into a narrow card, text unreadable | Render at natural size with horizontal scroll — never scale down to fit |
+| Overview arrow labeled with a bare action ("чтение/запись") when the participant has multiple routes/jobs | Name the specific endpoint/route/job on the arrow so one entrypoint's path can be traced |
