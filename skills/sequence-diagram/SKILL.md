@@ -52,11 +52,18 @@ sequence diagram).
    service map, not a full sequence: one row per entrypoint, with an arrow
    only to each thing it touches (other services, DB, queue) — no
    request/response pairs, no branches, and no incidental detail. But
-   **always name the specific endpoint/route/job an arrow belongs to**
-   (e.g. `POST /batches/send: чтение/запись`, not bare `чтение/запись`) —
-   when one process participant represents several entrypoints (a service
-   with 11 routes, a worker with 6 tick loops), a bare action label makes
-   it impossible to trace which entrypoint's logic an arrow belongs to.
+   **always name the specific endpoint/route/job an arrow belongs to** — one
+   clean, externally-recognizable name per arrow: the route path for an
+   HTTP endpoint (`POST /batches/send`), the job/task name for a cron or
+   worker cycle (`SendBatch`), the topic for a consumer (`internal.tickets`).
+   Use exactly that one name, nothing appended — don't also stack on the
+   internal trigger mechanism or use-case/class name (`worker run_once() -
+   SendBatchUseCase` is two internal implementation details glued together,
+   not an endpoint name; that use-case detail belongs in the per-entrypoint
+   diagram, step 4, not the overview). When one process participant
+   represents several entrypoints (a service with 11 routes, a worker with
+   6 tick loops), this one-name-per-arrow rule is what makes it possible to
+   trace which entrypoint's logic an arrow belongs to.
    This is the "whole picture" a reader sees first; the detailed per-entrypoint
    diagrams (steps 3-6, run once per entrypoint) are what they drill into.
 
@@ -166,3 +173,4 @@ whole-service set):
 | Translating the diagram but leaving Artifact titles/intro/nav in English | Language-match the *entire* page, not just the diagram content |
 | Diagram squeezed into a narrow card, text unreadable | Render at natural size with horizontal scroll — never scale down to fit |
 | Overview arrow labeled with a bare action ("чтение/запись") when the participant has multiple routes/jobs | Name the specific endpoint/route/job on the arrow so one entrypoint's path can be traced |
+| Overview arrow stacking the trigger mechanism and the use-case class ("worker run_once() - SendBatchUseCase") | One clean name per arrow (`SendBatch`); internal method/class names belong in the per-entrypoint diagram, not the overview |
